@@ -1,0 +1,40 @@
+# 干净的 Windows 云端编译：不依赖任何 secrets，手动点一下或推送即可运行
+name: Build-Windows
+
+on:
+  workflow_dispatch: # 允许在 Actions 页面手动点 “Run workflow”
+  push:
+    branches:
+      - master
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter 3.27.4
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.27.4
+          channel: stable
+
+      - name: Show versions
+        run: flutter --version
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Analyze (不阻断编译，仅输出参考)
+        run: flutter analyze || true
+
+      - name: Build Windows release
+        run: flutter build windows --release
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: oasx-windows
+          path: build/windows/x64/runner/Release
