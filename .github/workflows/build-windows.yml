@@ -29,17 +29,6 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Diagnose - flutter doctor
-        run: flutter doctor -v
-
-      - name: Diagnose - vswhere all products
-        shell: cmd
-        run: '"C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -all -products * -format json -utf8'
-
-      - name: Diagnose - vswhere latest
-        shell: cmd
-        run: '"C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -products * -latest -format json -utf8'
-
       - name: Analyze (不阻断编译，仅输出参考)
         run: flutter analyze || true
 
