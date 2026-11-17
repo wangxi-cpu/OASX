@@ -10,7 +10,9 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    # 固定 windows-2022 镜像：自带 VS2022(版本17)，Flutter 3.27.4 能正确识别；
+    # windows-latest 已滚动到 VS2026(版本18)，老 Flutter 不认识会错误 fallback 到 VS2019
+    runs-on: windows-2022
     steps:
       - name: Checkout
         uses: actions/checkout@v4
